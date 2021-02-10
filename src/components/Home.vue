@@ -92,7 +92,7 @@ export default {
     data(){
         return {
             time:'',//当前时间
-            defaultImg:'https://s1.ax1x.com/2020/10/03/03oP41.jpg',//默认壁纸
+            defaultImg:'http://127.0.0.1:8888/static/images/1.jpg',//默认壁纸
             flag:false,//遮罩和背景图片 放大or缩小
             flagInput:false,//搜索框 点击or未点击
             flagTime:false,//时间 点击or未点击
@@ -152,6 +152,7 @@ export default {
             imgIndex:0,//记录壁纸的下标
             customImg:'',//自定义背景图片地址
             wallpaperList:[],//壁纸数据
+            backups:'',//备份用户上传的背景图片地址
         }
     },
     created(){
@@ -159,8 +160,8 @@ export default {
         this.getMotto()
         this.token = sessionStorage.getItem('token')
         this.uname = sessionStorage.getItem('uname')
-        this.uname && this.getWallpaper(this.uname)
-        !this.uname && this.getWallpaper(null)
+        this.getWallpaper()
+        
     },
     mounted(){
         document.oncontextmenu =  () => {event.returnValue = false}
@@ -415,7 +416,7 @@ export default {
         //打开壁纸盒子
         openWallpaper(){
             this.isWallpaper = true
-            const imgs = document.querySelectorAll('#wallpaper section img')
+            const imgs = document.querySelectorAll('#wallpaper .default img')
             for(let item of imgs){item.src = item.dataset.url}
         },
         //关闭壁纸盒子
@@ -423,24 +424,23 @@ export default {
             this.isWallpaper = false
         },
         //获取壁纸数据
-        async getWallpaper(value){
-            if(value){
-                var {data:res} = await this.axios.get('wallpapers',{params:{uname:value}})
-            }else{
-                var {data:res} = await this.axios.get('wallpapers')
-            }
+        async getWallpaper(){
+            let name = this.uname ? this.uname : ''
+            const {data:res} = await this.axios.get('wallpapers',{params:{uname:name}})
             if(res.code != 200) 
             return this.$message({message:`${res.tips}`,type:'error',duration:1200})
             this.wallpaperList = res.data
-            this.wallpaperList.forEach(item => {
-                if(this.token && this.uname){
-                    if(item.uname == this.uname){
-                        this.defaultImg = item.url
-                        this.customImg = item.url
-                        this.imgIndex = item.id
-                    }
+            this.defaultImg = res.defaultImg ? res.defaultImg : 'http://127.0.0.1:8888/static/images/1.jpg'
+            this.customImg = res.customImg ? res.customImg : 'http://127.0.0.1:8888/static/images/white.jpg'
+            this.backups = res.customImg
+            let flag = false
+            flag = this.wallpaperList.some(item => {
+                if(item.url == this.defaultImg){
+                    this.imgIndex = item.id
+                    return true
                 }
             })
+            if(!flag) this.imgIndex = 0
         },
         //上传文件
         async uploadImg(e){
@@ -449,6 +449,7 @@ export default {
                 let formData = new FormData() 
                 formData.append('image', image) 
                 formData.append('uname', this.uname) 
+                formData.append('wallpaper', this.backups) 
                 const {data:res} = await this.axios.post('wallpapers',formData)
                 if(res.code != 200) 
                 return this.$message({message: `${res.tips}`,type: 'error',duration:1200})
@@ -465,22 +466,24 @@ export default {
                 this.updateWallpaper(data.url)
             }
         },
+        //点击切换自定义壁纸
+        clickCustomImg(e){  
+            if(this.token && this.customImg != 'https://s1.ax1x.com/2020/10/13/0hyDFH.jpg'){
+                this.imgIndex = 0
+                this.defaultImg = e.target.src
+                this.updateWallpaper(e.target.src)
+            }
+            
+        },
         //更新背景图片
         async updateWallpaper(url){
-            const {data:res} = await this.axios.put('wallpapers',{newurl:url})
+            const {data:res} = await this.axios.put('wallpapers',{url:url,uname:this.uname})
             if(res.code != 200) 
             return this.$message({message:`${res.tips}`,type:'error',duration:1200})
             this.$message({message:`${res.tips}`,type:'success',duration:1200})
             this.getWallpaper()
         },
-        //点击切换自定义壁纸
-        clickCustomImg(e){  
-            if(this.token){
-                this.imgIndex = 9
-                this.defaultImg = e.target.src
-            }
-            this.updateWallpaper(e.target.src)
-        },
+        
     }
 }
 </script>

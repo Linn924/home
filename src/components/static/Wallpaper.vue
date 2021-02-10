@@ -14,10 +14,8 @@
                     <div class="custom">
                         <span>自定义</span>
                         <div class="customBox">
-                            <div :class="imgIndex == 9?'img image':'img'">
-                                <img 
-                                    :src="isUploadImg?customImg:'https://s1.ax1x.com/2020/10/13/0hyDFH.jpg'" 
-                                    :data-url="customImg" @click="clickCustomImg($event)">
+                            <div :class="imgIndex == 0?'img image':'img'">
+                                <img :src="customImg" @click="clickCustomImg($event)">
                             </div>
                             <div class="describe">
                                 <span>将您喜爱的任意图像设为壁纸。</span>
@@ -34,9 +32,9 @@
                         <span>默认</span>
                         <div class="box">
                             <div :class="item.id == imgIndex ? 'img image' : 'img' "
-                                v-for="item in imgList" :key="item.id">
+                                v-for="item in wallpaperList" :key="item.id">
                                 <img src="https://s1.ax1x.com/2020/10/13/0hyDFH.jpg" 
-                                :data-url="item.url" @click="clickDefaultImg(item)">
+                                    :data-url="item.url" @click="clickDefaultImg(item)">
                             </div>
                         </div>
                     </div>
@@ -91,12 +89,6 @@ export default {
         clickCustomImg:{
             type:Function,
             required:true
-        }
-    },
-    computed:{
-        imgList(){
-            let arr = Object.assign([],this.wallpaperList)
-            return arr.slice(0,8)
         }
     }
 }
