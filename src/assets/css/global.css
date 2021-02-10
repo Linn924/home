@@ -1,0 +1,36 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html,
+body,
+#app{
+    min-width: 375px;
+    height:100vh;
+}
+
+a{
+    text-decoration: none;
+}
+
+.iconBig {
+    width: 1.6em;
+    height: 1.6em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
+.icon {
+    width: 1.2em;
+    height: 1.2em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
+.iconSmall {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
