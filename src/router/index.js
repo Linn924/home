@@ -3,6 +3,7 @@ const Home = () => import(/* webpackChunkName: "home" */'../components/Home.vue'
 const Login = () => import(/* webpackChunkName: "login" */'../components/dynamic/Login.vue')
 const Register = () => import(/* webpackChunkName: "register" */'../components/dynamic/Register.vue')
 const ReSetPwd = () => import(/* webpackChunkName: "resetpwd" */'../components/dynamic/ReSetPwd.vue')
+
 Vue.use(VueRouter)
 
 const routes = [
