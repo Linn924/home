@@ -62,7 +62,7 @@ export default {
         }
     },
     created(){
-        this.getNavs()
+        this.getNav()
     },
     computed:{
         //未折叠的数据
@@ -87,8 +87,10 @@ export default {
     },
     methods:{
         //获取nav数据
-        async getNavs(){
-            const {data:res} = await this.axios.get('websites')
+        async getNav(){
+            let uname = sessionStorage.getItem('uname')
+            let uid = sessionStorage.getItem('uid')
+            const {data:res} = await this.axios.get('websites',{params:{uname:uname,uid:uid}})
             if(res.code != 200) 
             return this.$message({message:`${res.tips}`,type:'error',duration:1200})
             this.navList = res.data

@@ -9,9 +9,10 @@
                 <div class="navItemBox">
                     <div class="navItem" 
                         v-for="i in item.children" :key="i.id">
-                        <svg class="iconSmall" aria-hidden="true">
+                        <svg class="iconSmall" aria-hidden="true" v-if="i.className">
                             <use :xlink:href="i.className"></use>
                         </svg>
+                        <img :src="i.logo" v-else>
                     </div>
                 </div>
                 <span>{{item.title}}</span>
@@ -44,9 +45,10 @@
                 :key="i.id" @click="open(i.url)"
                 @contextmenu.prevent="rightClickNav(i,$event)">
                 <div class="navItem">
-                    <svg class="iconBig" aria-hidden="true">
+                    <svg class="iconBig" aria-hidden="true" v-if="i.className">
                         <use :xlink:href="i.className"></use>
                     </svg>
+                    <img :src="i.logo" v-else>
                 </div>
                 <span>{{i.title}}</span>
             </div>
@@ -145,6 +147,11 @@ export default {
                 padding: 0 2px;
                 box-sizing: border-box;
                 transition: all @time;
+                img{
+                    width: 1.5em;
+                    height: 1.5em;
+                    border-radius: 50%;
+                }
             }
         }
         span{
@@ -174,6 +181,11 @@ export default {
             border-radius: 10px;
             pointer-events: none;
             transition: all @time;
+            img{
+                width: 1.5em;
+                height: 1.5em;
+                border-radius: 50%;
+            }
         }
         span{
             color: #fff;

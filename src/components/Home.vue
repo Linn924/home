@@ -32,23 +32,23 @@
             :openPutNavDialog="openPutNavDialog" :openDeleteNavDialog="openDeleteNavDialog">
         </Handel>
         <Dialog title="添加自定义网站" cancelTxt="取消" confirmTxt="添加" 
-            :mask="true" :visible="isPostDialog" @confirm="postNavs"
+            :mask="true" :visible="isPostDialog" @confirm="postNav"
             @cancel="isPostDialog = false">
             <div class="dialog-forms">
-                <input type="text" placeholder="网站名称" v-model="postNavForm.name">
+                <input type="text" placeholder="网站名称" v-model="postNavForm.title">
                 <input type="text" placeholder="网站网址" v-model="postNavForm.url">
             </div>
         </Dialog>
-        <Dialog title="编辑自定义网站" cancelTxt="取消" confirmTxt="添加" 
-            :mask="true" :visible="isPutDialog" @confirm="putNavs"
+        <Dialog title="编辑自定义网站" cancelTxt="取消" confirmTxt="修改" 
+            :mask="true" :visible="isPutDialog" @confirm="putNav"
             @cancel="isPutDialog = false">
             <div class="dialog-forms">
-                <input type="text" placeholder="网站名称" v-model="putNavForm.name">
+                <input type="text" placeholder="网站名称" v-model="putNavForm.title">
                 <input type="text" placeholder="网站网址" v-model="putNavForm.url">
             </div>
         </Dialog>
         <Dialog cancelTxt="取消" confirmTxt="删除" width="200px" height="70px"
-            :mask="true" :visible="isDeleteDialog" @confirm="deleteNavs"
+            :mask="true" :visible="isDeleteDialog" @confirm="deleteNav"
             @cancel="isDeleteDialog = false">
         </Dialog>
         <Wallpaper :isWallpaper="isWallpaper" :isUploadImg="isUploadImg"
@@ -124,6 +124,8 @@ export default {
 
             token:'',//用户token码
             uname:'',//用户昵称
+            uid:0,//用户id
+
             isStack:false,//二级层叠 是or否
             isFunction:false,//功能模块 显示or隐藏
             isDot:false,//圆点切换 显示or隐藏
@@ -134,15 +136,18 @@ export default {
             isSetModule:false,//其他设置 显示or隐藏
             isHandel:false,//操作nav模块
             postNavForm:{//添加自定义导航表单
-                logo:'',
-                name:'',
+                uid:0,
+                uname:'',
+                title:'',
                 url:''
             },
             putNavForm:{//修改自定义导航表单
-                logo:'',
-                name:'',
+                id:0,
+                uname:'',
+                title:'',
                 url:''
             },
+            copyPutNavForm:{},//拷贝一份修改自定义导航表单
             isPostDialog:false,//添加自定义导航 显示or隐藏
             isPutDialog:false,//修改自定义导航 显示or隐藏
             isDeleteDialog:false,//删除自定义导航 显示or隐藏
@@ -153,6 +158,8 @@ export default {
             customImg:'',//自定义背景图片地址
             wallpaperList:[],//壁纸数据
             backups:'',//备份用户上传的背景图片地址
+            isDefaultNav:false,//不准操作默认的导航 修改or添加
+            isUpdateNavForm:false,//修改导航表单 修改了or未修改
         }
     },
     created(){
@@ -160,6 +167,7 @@ export default {
         this.getMotto()
         this.token = sessionStorage.getItem('token')
         this.uname = sessionStorage.getItem('uname')
+        this.uid = sessionStorage.getItem('uid')
         this.getWallpaper()
         
     },
@@ -222,6 +230,17 @@ export default {
                 clearTimeout(timer)
                 document.removeEventListener('click',this.addeventTime)
             }
+        },
+        //深度监听修改后的自定义导航表单
+        putNavForm:{
+            handler(newVal){
+                if(JSON.stringify(newVal) !== JSON.stringify(this.copyPutNavForm)){
+                    this.isUpdateNavForm = true
+                }else{
+                    this.isUpdateNavForm = false
+                }
+            },
+            deep: true
         }
     },
     methods:{
@@ -301,6 +320,7 @@ export default {
                 this.isSetModule = false
                 this.isUserModule = false
                 this.isHandel = false
+                this.isDefaultNav = false
                 this.isStack = false
             }
         },
@@ -360,12 +380,16 @@ export default {
         clickUserIcon(){
             this.isSetModule = false
             this.isUserModule = true
+            this.isHandel = false
+            this.isDefaultNav = false
             this.isStack = true
         },
         //点击其他设置图标
         clickSetIcon(){
             this.isSetModule = true
             this.isUserModule = false
+            this.isHandel = false
+            this.isDefaultNav = false
             this.isStack = true
         },
         //右击nav便于折叠删除及修改
@@ -375,9 +399,16 @@ export default {
             let handel = document.querySelector('#handel')
             handel.style.top = e.pageY + 'px'
             handel.style.left = e.pageX + 'px'
-            this.putNavForm.name = data.title
-            this.putNavForm.url = data.url
-            this.deleteIndex = data.id
+            if(data.className){
+                this.isDefaultNav = true
+            }else{
+                this.isDefaultNav = false
+                this.putNavForm.title = data.title
+                this.putNavForm.url = data.url
+                this.putNavForm.id = data.id
+                this.copyPutNavForm = Object.assign({},this.putNavForm)
+                this.deleteIndex = data.id
+            }
         },
         //关闭展开的导航列表
         closeNavOpenList(){
@@ -387,31 +418,66 @@ export default {
         },
         //打开添加自定义导航对话框
         openPostNavDialog(){
+            if(!this.token || !this.uname)
+            return this.$message({message: '无法添加自定义网站，请登录',type: 'error',duration:1200})
             this.isPostDialog = true
         },
         //打开修改自定义导航对话框
-        openPutNavDialog(){
-            this.isPutDialog = true
+        openPutNavDialog(e){
             this.isHandel = false
             this.isStack = false
+            if(this.isDefaultNav){
+                this.isDefaultNav = false
+                return this.$message({type:'error',message:'无法修改默认网站',duration:1200})
+            }
+            this.isPutDialog = true
         },
         //打开删除自定义导航对话框
         openDeleteNavDialog(){
-            this.isDeleteDialog = true
             this.isHandel = false
             this.isStack = false
+            if(this.isDefaultNav){
+                this.isDefaultNav = false
+                return this.$message({type:'error',message:'无法删除默认网站',duration:1200})
+            }
+            this.isDeleteDialog = true
         },
         //添加自定义导航
-        postNavs(){
-            console.log(1)
+        async postNav(){
+            if(!this.postNavForm.title.trim() || !this.postNavForm.url.trim())
+            return this.$message({message: '请输入内容',type: 'error',duration:1200})
+            this.postNavForm.uid = this.uid
+            this.postNavForm.uname = this.uname
+            const {data:res} = await this.axios.post('websites',this.postNavForm)
+            if(res.code != 200)
+            return this.$message({message: `${res.tips}`,type: 'error',duration:1200})
+            this.$message({message: `${res.tips}`,type: 'success',duration:1200})
+            this.isPostDialog = false
+            this.$refs.function.getNav()
         },
         //修改自定义导航
-        putNavs(){
-            console.log(this.putNavForm)
+        async putNav(){
+            if(!this.isUpdateNavForm)
+            return this.$message({message: '未作出任何修改',type: 'error',duration:1200})
+            if(!this.putNavForm.title.trim() || !this.putNavForm.url.trim())
+            return this.$message({message: '请输入内容',type: 'error',duration:1200})
+            this.putNavForm.uname = this.uname
+            const {data:res} = await this.axios.put('websites',this.putNavForm)
+            if(res.code != 200)
+            return this.$message({message: `${res.tips}`,type: 'error',duration:1200})
+            this.$message({message: `${res.tips}`,type: 'success',duration:1200})
+            this.isUpdateNavForm = false
+            this.isPutDialog = false
+            this.$refs.function.getNav()
         },
         //删除自定义导航
-        deleteNavs(){
-            console.log(this.deleteIndex)
+        async deleteNav(){
+            const {data:res} = await this.axios.delete('websites',{params:{id:this.deleteIndex,uname:this.uname}})
+            if(res.code != 200)
+            return this.$message({message: `${res.tips}`,type: 'error',duration:1200})
+            this.$message({message: `${res.tips}`,type: 'success',duration:1200})
+            this.isDeleteDialog = false
+            this.$refs.function.getNav()
         },
         //打开壁纸盒子
         openWallpaper(){
@@ -425,8 +491,9 @@ export default {
         },
         //获取壁纸数据
         async getWallpaper(){
-            let name = this.uname ? this.uname : ''
-            const {data:res} = await this.axios.get('wallpapers',{params:{uname:name}})
+            let uname = this.uname ? this.uname : ''
+            let uid = this.uid ? this.uid : 0
+            const {data:res} = await this.axios.get('wallpapers',{params:{uname:uname,uid:uid}})
             if(res.code != 200) 
             return this.$message({message:`${res.tips}`,type:'error',duration:1200})
             this.wallpaperList = res.data
@@ -444,27 +511,30 @@ export default {
         },
         //上传文件
         async uploadImg(e){
-            if(this.token && this.uname){
-                let image = e.target.files[0] 
-                let formData = new FormData() 
-                formData.append('image', image) 
-                formData.append('uname', this.uname) 
-                formData.append('wallpaper', this.backups) 
-                const {data:res} = await this.axios.post('wallpapers',formData)
-                if(res.code != 200) 
-                return this.$message({message: `${res.tips}`,type: 'error',duration:1200})
-                this.$message({message: `${res.tips}`,type: 'success',duration:1200})
-                this.getWallpaper()
-                this.isUploadImg = true
-            }
+            if(!this.token || !this.uname)
+            return this.$message({message: '无法上传图片，请登录',type: 'error',duration:1200})
+            let image = e.target.files[0] 
+            let formData = new FormData() 
+            formData.append('image', image) 
+            formData.append('uname', this.uname) 
+            formData.append('uid', this.uid) 
+            formData.append('wallpaper', this.backups) 
+            const {data:res} = await this.axios.post('wallpapers',formData)
+            if(res.code != 200) 
+            return this.$message({message: `${res.tips}`,type: 'error',duration:1200})
+            this.$message({message: `${res.tips}`,type: 'success',duration:1200})
+            this.getWallpaper()
+            this.isUploadImg = true
+            
         },
         //选择的图片下标
         clickDefaultImg(data){
-            if(this.token){
-                this.imgIndex = data.id
-                this.defaultImg = data.url
-                this.updateWallpaper(data.url)
-            }
+            if(!this.token || !this.uname)
+            return this.$message({message: '无法切换壁纸，请登录',type: 'error',duration:1200})
+            this.imgIndex = data.id
+            this.defaultImg = data.url
+            this.updateWallpaper(data.url)
+            
         },
         //点击切换自定义壁纸
         clickCustomImg(e){  
@@ -477,13 +547,12 @@ export default {
         },
         //更新背景图片
         async updateWallpaper(url){
-            const {data:res} = await this.axios.put('wallpapers',{url:url,uname:this.uname})
+            const {data:res} = await this.axios.put('wallpapers',{url:url,uname:this.uname,uid:this.uid})
             if(res.code != 200) 
             return this.$message({message:`${res.tips}`,type:'error',duration:1200})
             this.$message({message:`${res.tips}`,type:'success',duration:1200})
             this.getWallpaper()
-        },
-        
+        }
     }
 }
 </script>

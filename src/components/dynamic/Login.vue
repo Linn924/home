@@ -82,6 +82,7 @@ export default {
                 this.$message({message: `${res.tips}`,type: 'success',duration:1200})
                 sessionStorage.setItem('token',res.token)
                 sessionStorage.setItem('uname',res.uname)
+                sessionStorage.setItem('uid',res.uid)
                 this.$router.push('/home')
             })
         }
