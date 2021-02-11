@@ -73,7 +73,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@time:.5s;
+@time:.3s;
 #search{
     position: absolute;
     top: 20vh;
@@ -99,8 +99,8 @@ export default {
     background: rgba(255, 255, 255, .5)!important;
     &::placeholder{color:rgba(0,0,0,.5)!important;}
 }
-.enlarge{animation: enlarge .15s ease forwards;}
-.narrow{animation: narrow .15s ease forwards;}
+.enlarge{animation: enlarge @time ease forwards;}
+.narrow{animation: narrow @time ease forwards;}
 @keyframes enlarge{from{width: 270px;}to{width: 550px;}}
 @keyframes narrow{from{width: 550px;}to{width: 270px;}}
 

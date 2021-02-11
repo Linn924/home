@@ -28,9 +28,7 @@
             </transition>
             <transition name="setModule">
                 <div class="setModule" v-show="isSetModule">
-                    <span>常规设置</span>
-                    <span>搜索引擎设置</span>
-                    <span>背景图片设置</span>
+                    <span>暂无</span>
                 </div>
             </transition>
         </div>
@@ -61,15 +59,17 @@ export default {
         clickSetIcon:{
             type:Function,
             required:true
-        },
-        token:{
-            type:String,
-            required:true
-        },
-        uname:{
-            type:String,
-            required:true
         }
+    },
+    data(){
+        return {
+            token:'',
+            uname:''
+        }
+    },
+    created(){
+        this.token = sessionStorage.getItem('token')
+        this.uname = sessionStorage.getItem('uname')
     },
     methods:{
         //登出
@@ -83,7 +83,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@time:.25s;
+@time:.3s;
 #setting{
     position: absolute;
     top: 30px;

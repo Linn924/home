@@ -1,36 +1,79 @@
 <template>
     <div id="home">
-        <Init :flag="flag" :clickTime="clickTime" :time="time" :defaultImg="defaultImg"></Init>
+        <Init 
+            :flag="flag" 
+            :time="time" 
+            :defaultImg="defaultImg" 
+            :clickTime="clickTime">
+        </Init>
         <Search 
-            :isSearch="isSearch" :isBgColor="isBgColor"
-            :isEnlarge="isEnlarge" :isNarrow="isNarrow"
-            :flagInput="flagInput" ref="search"
-            :enlarge="enlarge" :narrow="narrow"
-            :search="search" :clickInput="clickInput">
+            ref="search"
+            :isSearch="isSearch" 
+            :isBgColor="isBgColor"
+            :isEnlarge="isEnlarge" 
+            :isNarrow="isNarrow"
+            :flagInput="flagInput" 
+            :enlarge="enlarge" 
+            :narrow="narrow"
+            :search="search" 
+            :clickInput="clickInput">
         </Search>
         <SearchOpt 
-            :isSearchOpt="isSearchOpt" :browserIndex="browserIndex" 
-            :browserIcons="browserIcons" :clickIcon="clickIcon">
+            :isSearchOpt="isSearchOpt"
+            :browserIndex="browserIndex" 
+            :browserIcons="browserIcons" 
+            :clickIcon="clickIcon">
         </SearchOpt>
-        <Motto :isMotto="isMotto" :motto="motto"></Motto>
-        <KeyWords :searchList="searchList" :clickKeyWords="clickKeyWords"></KeyWords>
+        <KeyWords 
+            :searchList="searchList" 
+            :clickKeyWords="clickKeyWords">
+        </KeyWords>
+        <Motto 
+            :isMotto="isMotto" 
+            :motto="motto">
+        </Motto>
         <Function 
-            :isFunction="isFunction" ref="function" 
-            :rightClickNav="rightClickNav" :noteTime="noteTime"
-            :updatePinNote="updatePinNote" :openPostNavDialog="openPostNavDialog"
+            ref="function" 
+            :isFunction="isFunction" 
+            :noteTime="noteTime"
+            :rightClickNav="rightClickNav" 
+            :updatePinNote="updatePinNote" 
+            :openPostNavDialog="openPostNavDialog"
             :openWallpaper="openWallpaper">
         </Function>
-        <Dot :isDot="isDot" :dotIndex="dotIndex" :clickDot="clickDot"></Dot>
-        <PinNote :updateNote="updateNote" ref="pinNote"></PinNote>
+        <PinNote 
+            ref="pinNote"
+            :updateNote="updateNote">
+        </PinNote>
+        <Dot 
+            :isDot="isDot" 
+            :dotIndex="dotIndex" 
+            :clickDot="clickDot">
+        </Dot>
         <Setting 
-            :isSetting="isSetting" :isUserModule="isUserModule"
-            :isSetModule="isSetModule" :clickUserIcon="clickUserIcon"
-            :clickSetIcon="clickSetIcon" :token="token" :uname="uname">
+            :isSetting="isSetting" 
+            :isUserModule="isUserModule"
+            :isSetModule="isSetModule" 
+            :clickUserIcon="clickUserIcon"
+            :clickSetIcon="clickSetIcon">
         </Setting>
         <Handel 
-            :isHandel="isHandel" :closeNavOpenList="closeNavOpenList"
-            :openPutNavDialog="openPutNavDialog" :openDeleteNavDialog="openDeleteNavDialog">
+            :isHandel="isHandel" 
+            :closeNavOpenList="closeNavOpenList"
+            :openPutNavDialog="openPutNavDialog" 
+            :openDeleteNavDialog="openDeleteNavDialog">
         </Handel>
+        <Wallpaper 
+            :isWallpaper="isWallpaper" 
+            :isUploadImg="isUploadImg"
+            :imgIndex="imgIndex" 
+            :customImg="customImg" 
+            :wallpaperList="wallpaperList"
+            :uploadImg="uploadImg"
+            :closeWallpaper="closeWallpaper" 
+            :clickDefaultImg="clickDefaultImg" 
+            :clickCustomImg="clickCustomImg">
+        </Wallpaper>
         <Dialog title="添加自定义网站" cancelTxt="取消" confirmTxt="添加" 
             :mask="true" :visible="isPostDialog" @confirm="postNav"
             @cancel="isPostDialog = false">
@@ -51,11 +94,7 @@
             :mask="true" :visible="isDeleteDialog" @confirm="deleteNav"
             @cancel="isDeleteDialog = false">
         </Dialog>
-        <Wallpaper :isWallpaper="isWallpaper" :isUploadImg="isUploadImg"
-            :imgIndex="imgIndex" :customImg="customImg" :wallpaperList="wallpaperList"
-            :closeWallpaper="closeWallpaper" :uploadImg="uploadImg"
-            :clickDefaultImg="clickDefaultImg" :clickCustomImg="clickCustomImg">
-        </Wallpaper>
+        
     </div>
 </template>
 
@@ -63,15 +102,16 @@
 import Init from './static/Init'
 import Search from './static/Search'
 import SearchOpt from './static/SearchOpt'
-import Motto from './static/Motto'
 import KeyWords from './static/KeyWords'
+import Motto from './static/Motto'
 import Function from './static/Function'
-import Dot from './static/Dot'
 import PinNote from './static/PinNote'
+import Dot from './static/Dot'
 import Setting from './static/Setting'
 import Handel from './static/Handel'
-import Dialog from './static/Dialog'
 import Wallpaper from './static/Wallpaper'
+import Dialog from './static/Dialog'
+
 export default {
     name:'App',
     inject:['reload'],
@@ -79,35 +119,53 @@ export default {
         Init,
         Search,
         SearchOpt,
-        Motto,
         KeyWords,
+        Motto,
         Function,
-        Dot,
         PinNote,
+        Dot,
         Setting,
         Handel,
-        Dialog,
-        Wallpaper
+        Wallpaper,
+        Dialog
     },
     data(){
         return {
+            //Home组件相关变量
+            token:'',//用户token码
+            uname:'',//用户昵称
+            uid:0,//用户id
+            isStack:false,//二级层叠 是or否
+            backups:'',//备份用户上传的背景图片地址
+            isDefaultNav:false,//不准操作默认的导航 修改or添加
+            preLoadImgList:[//预加载图片数据
+                'https://s3.ax1x.com/2021/02/02/ynl0PJ.jpg',
+                'https://s3.ax1x.com/2021/02/04/y1r534.jpg',
+                'http://127.0.0.1:8888/static/images/1.jpg',
+                'http://127.0.0.1:8888/static/images/white.jpg'
+            ],
+
+            //Init组件相关变量
+            flag:false,//遮罩和背景图片 放大or缩小
             time:'',//当前时间
             defaultImg:'http://127.0.0.1:8888/static/images/1.jpg',//默认壁纸
-            flag:false,//遮罩和背景图片 放大or缩小
-            flagInput:false,//搜索框 点击or未点击
             flagTime:false,//时间 点击or未点击
+
+            //Search组件相关变量
             isSearch:true,//搜索框 显示or隐藏
+            isBgColor:true,//搜索框背景颜色 改变or不改变
             isEnlarge:false,//enlarge动画 添加or不添加
             isNarrow:false,//narrow动画 添加or不添加
-            isBgColor:true,//搜索框背景颜色 改变or不改变
+            flagInput:false,//搜索框 点击or未点击
 
+            //SearchOpt组件相关变量
             isSearchOpt:false,//搜索引擎图标 显示or隐藏
+            browserIndex:0,//默认选择必应浏览器图标
             browserIcons:[//浏览器种类
                 {className:'#icon-biying'},
                 {className:'#icon-baidu'},
                 {className:'#icon-guge'}
             ],
-            browserIndex:0,//默认选择必应浏览器图标
             searchEngines:[//搜索引擎
                 {url:'https://cn.bing.com/search?q='},
                 {url:'https://www.baidu.com/s?wd='},
@@ -118,23 +176,41 @@ export default {
                 {url:'http://suggestion.baidu.com/su?cb=jsonpCB&wd='},
                 {url:'http://suggestqueries.google.com/complete/search?client=youtube&jsonp=jsonpCB&q='}
             ],
+
+            //KeyWords组件相关变量
             searchList:[],//关键词联想数据
+
+            //Motto组件相关变量
             isMotto:false,//格言 显示or隐藏
             motto:'',//格言内容
 
-            token:'',//用户token码
-            uname:'',//用户昵称
-            uid:0,//用户id
-
-            isStack:false,//二级层叠 是or否
+            //Function组件相关变量
             isFunction:false,//功能模块 显示or隐藏
+            noteTime:'',//编写便签的时间
+
+            //Dot组件相关变量
             isDot:false,//圆点切换 显示or隐藏
             dotIndex:0,//圆点下标
-            noteTime:'',//编写便签的时间
+            
+            //Setting组件相关变量
             isSetting:false,//设置 显示or隐藏
             isUserModule:false,//用户设置 显示or隐藏
             isSetModule:false,//其他设置 显示or隐藏
+
+            //Handel组件相关变量
             isHandel:false,//操作nav模块
+
+            //Wallpaper组件相关变量
+            isWallpaper:false,//壁纸盒子 显示or隐藏
+            isUploadImg:false,//上传了壁纸 是or否
+            imgIndex:0,//记录壁纸的下标
+            customImg:'',//自定义背景图片地址
+            wallpaperList:[],//壁纸数据 
+
+            //Dialog组件相关变量
+            isPostDialog:false,//添加自定义导航 显示or隐藏
+            isPutDialog:false,//修改自定义导航 显示or隐藏
+            isDeleteDialog:false,//删除自定义导航 显示or隐藏
             postNavForm:{//添加自定义导航表单
                 uid:0,
                 uname:'',
@@ -147,19 +223,9 @@ export default {
                 title:'',
                 url:''
             },
-            copyPutNavForm:{},//拷贝一份修改自定义导航表单
-            isPostDialog:false,//添加自定义导航 显示or隐藏
-            isPutDialog:false,//修改自定义导航 显示or隐藏
-            isDeleteDialog:false,//删除自定义导航 显示or隐藏
-            deleteIndex:-1,//要删除的自定义导航下标
-            isWallpaper:false,//壁纸盒子 显示or隐藏
-            isUploadImg:false,//上传了壁纸 是or否
-            imgIndex:0,//记录壁纸的下标
-            customImg:'',//自定义背景图片地址
-            wallpaperList:[],//壁纸数据
-            backups:'',//备份用户上传的背景图片地址
-            isDefaultNav:false,//不准操作默认的导航 修改or添加
             isUpdateNavForm:false,//修改导航表单 修改了or未修改
+            copyPutNavForm:{},//拷贝一份修改自定义导航表单
+            deleteIndex:-1//要删除的自定义导航下标    
         }
     },
     created(){
@@ -169,12 +235,11 @@ export default {
         this.uname = sessionStorage.getItem('uname')
         this.uid = sessionStorage.getItem('uid')
         this.getWallpaper()
-        
+        this.preLoadImg(this.preLoadImgList)
     },
     mounted(){
         document.oncontextmenu =  () => {event.returnValue = false}
         setInterval(this.getTime,1000)
-        //关键词联想回调
         window.jsonpCB = data => {
             this.searchList = []
             if(data instanceof Array){
@@ -244,7 +309,15 @@ export default {
         }
     },
     methods:{
-        //时间
+        // 预加载图片
+        preLoadImg(arr){
+            let imgList = []
+            arr.forEach((item,index) => {
+                imgList[index] = new Image()
+                imgList[index].src = arr[index]
+            })
+        },
+        //获取时间
         getTime(){
             const t = new Date()
             const y = t.getFullYear()
@@ -255,18 +328,6 @@ export default {
             const ss = (t.getSeconds() + '').padStart(2, '0')
             this.time = `${hh}:${mm}`
             this.noteTime = `${y}-${m}-${d} ${hh}:${mm}:${ss}`
-        },
-        //鼠标移入搜索框
-        enlarge(){
-            this.isEnlarge = true
-            this.isNarrow = false
-        },
-        //鼠标移出搜索框
-        narrow(){
-            if(!this.flagInput){
-                this.isEnlarge = false
-                this.isNarrow = true
-            }
         },
         //点击时间
         clickTime(){
@@ -281,6 +342,26 @@ export default {
             this.isFunction = true
             this.isDot = true
             this.isSetting = true
+        },
+        //鼠标移入搜索框
+        enlarge(){
+            this.isEnlarge = true
+            this.isNarrow = false
+        },
+        //鼠标移出搜索框
+        narrow(){
+            if(!this.flagInput){
+                this.isEnlarge = false
+                this.isNarrow = true
+            }
+        },
+        //搜索事件
+        search(e,value = ''){
+            if(e.keyCode == 13){
+                window.open(this.searchEngines[this.browserIndex].url + value)
+                this.$refs.search.empty()
+            }
+            this.$jsonp(this.keyWordsApi[this.browserIndex].url + value).then(res => res) 
         },
         //点击搜索框
         clickInput(){
@@ -324,6 +405,19 @@ export default {
                 this.isStack = false
             }
         },
+        //点击浏览器图标切换搜索引擎
+        clickIcon(id,value = ''){
+            this.browserIndex = id
+            if(!value){
+                this.$jsonp(this.keyWordsApi[this.browserIndex].url + value).then(res => res)
+            }
+        },
+        //打开网页
+        clickKeyWords(url){
+            window.open(url)
+            this.$refs.search.empty()
+            this.searchList = []
+        },
         //获取格言警句
         async getMotto(){
             const {data:res} = await this.axios.get('https://v1.hitokoto.cn/?c=d&amp;c=i&amp;encode=json')
@@ -332,31 +426,6 @@ export default {
             }else{
                 this.motto ='/*  ' + res.hitokoto + '  */'
             } 
-        },
-        //点击浏览器图标切换搜索引擎
-        clickIcon(id,value = ''){
-            this.browserIndex = id
-            if(!value){
-                this.$jsonp(this.keyWordsApi[this.browserIndex].url + value).then(res => res)
-            }
-        },
-        //搜索事件
-        search(e,value = ''){
-            let timer = null
-            if(timer) clearTimeout(timer)
-                timer = setTimeout(() => {
-                    if(e.keyCode == 13){
-                        window.open(this.searchEngines[this.browserIndex].url + value)
-                        this.$refs.search.empty()
-                    }
-                    this.$jsonp(this.keyWordsApi[this.browserIndex].url + value).then(res => res)
-                },500)  
-        },
-        //打开网页
-        clickKeyWords(url){
-            window.open(url)
-            this.$refs.search.empty()
-            this.searchList = []
         },
         //切换模块
         clickDot(e){
@@ -491,9 +560,7 @@ export default {
         },
         //获取壁纸数据
         async getWallpaper(){
-            let uname = this.uname ? this.uname : ''
-            let uid = this.uid ? this.uid : 0
-            const {data:res} = await this.axios.get('wallpapers',{params:{uname:uname,uid:uid}})
+            const {data:res} = await this.axios.get('wallpapers',{params:{uname:this.uname,uid:this.uid}})
             if(res.code != 200) 
             return this.$message({message:`${res.tips}`,type:'error',duration:1200})
             this.wallpaperList = res.data
@@ -538,7 +605,7 @@ export default {
         },
         //点击切换自定义壁纸
         clickCustomImg(e){  
-            if(this.token && this.customImg != 'https://s1.ax1x.com/2020/10/13/0hyDFH.jpg'){
+            if(this.token && this.customImg != 'http://127.0.0.1:8888/static/images/white.jpg'){
                 this.imgIndex = 0
                 this.defaultImg = e.target.src
                 this.updateWallpaper(e.target.src)

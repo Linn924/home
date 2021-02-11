@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@time:.5s;
+@time:.3s;
 #searchOpt{
     position: absolute;
     top: 26vh;

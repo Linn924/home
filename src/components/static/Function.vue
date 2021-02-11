@@ -1,22 +1,24 @@
 <template>
     <!-- 功能模块 -->
-    <div id="function" v-show="isFunction">
-        <NavList 
-            :isNavFoldList="isNavFoldList"
-            :navOpenList="navOpenList"
-            :navFoldList="navFoldList"
-            :navFoldIndex="navFoldIndex"
-            :openNavFoldList="openNavFoldList"
-            :rightClickNav="rightClickNav"
-            :openPostNavDialog="openPostNavDialog"
-            :openWallpaper="openWallpaper">
-        </NavList>
-        <Note 
-            :updatePinNote="updatePinNote" 
-            :noteTime="noteTime" 
-            ref="note">
-        </Note>
-    </div>
+    <transition name="function">
+        <div id="function" v-show="isFunction">
+            <NavList 
+                :isNavFoldList="isNavFoldList"
+                :navFoldIndex="navFoldIndex"
+                :navOpenList="navOpenList"
+                :navFoldList="navFoldList"
+                :rightClickNav="rightClickNav"
+                :openNavFoldList="openNavFoldList"
+                :openPostNavDialog="openPostNavDialog"
+                :openWallpaper="openWallpaper">
+            </NavList>
+            <Note 
+                ref="note"
+                :noteTime="noteTime"
+                :updatePinNote="updatePinNote">
+            </Note>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -33,15 +35,15 @@ export default {
             type:Boolean,
             required:true
         },
-        updatePinNote:{
-            type:Function,
-            required:true
-        },
         noteTime:{
             type:String,
             reuqired:true
         },
         rightClickNav:{
+            type:Function,
+            required:true
+        },
+        updatePinNote:{
             type:Function,
             required:true
         },
@@ -127,7 +129,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@time:.5s;
+@time:.3s;
 #function{
     position: absolute;
     top: 20vh;
@@ -140,7 +142,7 @@ export default {
 
 #function-enter-active,
 #function-leave-active
-{transition: all @time;}
+{transition: all .25s;}
 
 #function-enter,
 #function-leave-to

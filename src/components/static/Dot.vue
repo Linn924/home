@@ -38,7 +38,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@time:.25s;
+@time:.3s;
 #dot{
     position: absolute;
     bottom: 15vh;
@@ -52,14 +52,14 @@ export default {
         width: 20px;
         height: 4px;
         border-radius: 2px;
-        background-color:#fff;
+        background-color:#9D9D9F;
         cursor: pointer;
         transition: all @time;
-        &:hover{background-color: #2468F2;}
+        &:hover{background-color: #fff;}
     }
 }
 
-.current{background-color: #2468F2!important;}
+.current{background-color: #fff!important;}
 
 #dot-enter-active,
 #dot-leave-active

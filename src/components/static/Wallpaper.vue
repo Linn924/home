@@ -38,12 +38,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="trends same">
-                        <span>动态</span>
-                        <div class="box">
-                            <span>暂无</span>
-                        </div>
-                    </div>
                 </section>
             </div>
         </div>
@@ -74,11 +68,11 @@ export default {
             type:Array,
             required:true
         },
-        closeWallpaper:{
+        uploadImg:{
             type:Function,
             required:true
         },
-        uploadImg:{
+        closeWallpaper:{
             type:Function,
             required:true
         },
@@ -95,7 +89,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@time:.15s;
+@time:.3s;
 #wallpaper{
     position: absolute;
     top: 50%;
@@ -162,10 +156,9 @@ export default {
                 width: 100%;
                 height: 100%;
                 cursor: pointer;
-                border-radius: 5px;
+                border-radius: 3px;
                 transition: all @time;
-                &:hover{transform: scale(1.1);}
-                
+                &:hover{transform:translateZ(0) scale(1.1);}
             }
         }
         .describe{
@@ -214,21 +207,16 @@ export default {
             overflow: hidden;
             border-radius: 5px;
             position: relative;
-            img,video{
+            img{
                 width: 100%;
                 height: 100%;
                 cursor: pointer;
                 border-radius: 5px;
                 object-fit: cover;
                 transition: all @time;
-                &:hover{transform: scale(1.1);}
+                &:hover{transform:translateZ(0) scale(1.1);}
             }  
         }
-    }
-}
-.trends{
-    .box{
-        grid-template-rows: 1fr;
     }
 }
 .image::after{
@@ -245,4 +233,12 @@ export default {
     color: #fff;
     background-color: rgba(0, 0, 0, .4);
 }
+
+#wallpaper-enter-active,
+#wallpaper-leave-active
+{transition: all @time;}
+
+#wallpaper-enter,
+#wallpaper-leave-to
+{opacity: 0;}
 </style>

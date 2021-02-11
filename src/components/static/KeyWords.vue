@@ -1,17 +1,16 @@
 <template>
     <!-- 关键词模块 -->
-    <transition name="keyWords">
-        <div 
-            id="keyWords" 
-            v-if="searchList.length">
-            <div 
+    <div id="keyWords" v-if="searchList.length">
+        <transition-group name="keyWords">
+            <div id="keyword"
                 v-for="(item,index) in searchList" 
                 @click="clickKeyWords(item.url)"
                 :key="index">
                 {{item.title}}
             </div>
-        </div>
-    </transition>
+        </transition-group>
+    </div>
+    
 </template>
 
 <script>
@@ -31,7 +30,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@time:.5s;
+@time:.3s;
 #keyWords{
     position: absolute;
     top: 31vh;
@@ -51,17 +50,20 @@ export default {
         color: rgba(255, 255, 255, .8);
         transition: all @time;
         cursor: pointer;
-        &:hover{background-color:rgba(255, 255, 255, .2);padding: 10px 25px;}
+        &:hover{
+            background-color:rgba(255, 255, 255, .2);
+            padding: 10px 25px;
+        }
         &:first-child{border-radius: 15px 15px 0 0;}
         &:last-child{border-radius: 0 0 15px 15px;}
     }
 }
 
-#keyWords-enter-active,
-#keyWords-leave-active
+#keyWord-enter-active,
+#keyWord-leave-active
 {transition: all @time;}
 
-#keyWords-enter,
-#keyWords-leave-to
+#keyWord-enter,
+#keyWord-leave-to
 {opacity: 0;}
 </style>

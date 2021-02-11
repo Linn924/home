@@ -83,6 +83,7 @@ export default {
 </script>
 
 <style scoped lang="less">
+@time:.15s;
 *{
     margin: 0;
     padding: 0;
@@ -118,12 +119,12 @@ export default {
                 color: #fff;
                 &:first-child{
                     background-color: #2468F2;
-                    transition: color .15s;
+                    transition: color @time;
                     &:hover{background-color: #14171B;}
                 }
                 &:last-child{
                     background-color: #14171B;
-                    transition: color .15s;
+                    transition: color @time;
                     &:hover{background-color: #2468F2;}
                 }
             }
@@ -132,7 +133,8 @@ export default {
 }
 .dialog-enter-active,
 .dialog-leave-active
-{transition: all .15s;}
+{transition: all @time;}
+
 .dialog-enter,
 .dialog-leave-to
 {opacity: 0;}

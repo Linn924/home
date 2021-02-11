@@ -60,7 +60,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@time:.25s;
+@time:.3s;
 #pinNote{
     position: absolute;
     top: 40px;

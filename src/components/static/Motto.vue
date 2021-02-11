@@ -24,7 +24,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@time:.5s;
+@time:.3s;
 #motto{
     position: absolute;
     bottom: 12vh;

@@ -75,7 +75,7 @@ export default {
         async login(){
             this.$refs.loginFormRef.validate( async valid => {
                 if(!valid) 
-                return this.$message({message: '请输入用户名密码登录',type: 'error'})
+                return this.$message({message: '请输入用户名密码登录',type: 'error',duration:1200})
                 const {data:res} = await this.axios.get('users',{params:this.loginForm})
                 if(res.code != 200) 
                 return this.$message({message: `${res.tips}`,type: 'error',duration:1200})

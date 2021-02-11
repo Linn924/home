@@ -2,15 +2,15 @@
     <!-- 初始模块 -->
     <div id="init">
         <img 
-          :src="defaultImg" 
-          :style="{transform:flag?'scale(1.1)':'scale(1)'}">
+            :src="defaultImg" 
+            :style="{transform:flag?'scale(1.1)':'scale(1)'}">
         <div 
-          class="mask" 
-          :style="{'backgroundColor':flag?'rgba(0,0,0,.5)':''}">
+            class="mask" 
+            :style="{'backgroundColor':flag?'rgba(0,0,0,.5)':''}">
         </div>
         <h1 @click="clickTime">{{time}}</h1>
         <footer>
-            <span>© 2021 LinnCooper</span>
+            <a href="http://www.linncode.cn" target="_blank">© 2021 LinnCooper</a>
         </footer>
     </div>
 </template>
@@ -23,10 +23,6 @@ export default {
           type:Boolean,
           required:true
         },
-        clickTime:{
-          type:Function,
-          required:true
-        },
         time:{
           type:String,
           required:true
@@ -34,13 +30,17 @@ export default {
         defaultImg:{
           type:String,
           required:true
+        },
+        clickTime:{
+          type:Function,
+          required:true
         }
     }
 }
 </script>
 
 <style scoped lang="less">
-@time:.25s;
+@time:.3s;
 #init{
     position: relative;
     width: 100vw;
@@ -68,28 +68,29 @@ export default {
         left: 50%;
         transform: translateX(-50%);
         color: #FAFBFC;
-        font-size: 36px;
+        font-size: 40px;
+        font-family: Helvetica, Tahoma, Arial;
         font-weight: 400;
         cursor: pointer;
-        transition:all .15s;
-        &:hover{font-size: 40px;}
+        transition:all @time;
+        &:hover{color: #2468F2;}
     }
     footer{
         position: absolute;
         bottom: 1vh;
         left: 50%;
         transform: translateX(-50%);
-        color:#B1B1B2;
         font-size: 12px;
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
-        transition:all .15s;
-        span{
+        a{
             cursor: pointer;
-            color: #fff;
+            color:#9D9D9F;
+            transition:color @time;
+            &:hover{color: #fff;}
         }
     }
 }
+
 </style>

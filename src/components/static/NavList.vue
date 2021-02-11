@@ -66,6 +66,10 @@ export default {
             type:Boolean,
             required:true
         },
+        navFoldIndex:{
+            type:Number,
+            required:true
+        },
         navOpenList:{
             type:Array,
             required:true
@@ -74,15 +78,11 @@ export default {
             type:Array,
             required:true
         },
-        navFoldIndex:{
-            type:Number,
-            required:true
-        },
-        openNavFoldList:{
+        rightClickNav:{
             type:Function,
             required:true
         },
-        rightClickNav:{
+        openNavFoldList:{
             type:Function,
             required:true
         },
@@ -104,7 +104,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@time:.8s;
+@time:.3s;
 #navList{
     min-width: 600px;
     max-height: 500px;

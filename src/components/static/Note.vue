@@ -62,13 +62,13 @@
 export default {
     name:'Note',
     props:{
-        updatePinNote:{
-            type:Function,
-            required:true
-        },
         noteTime:{
             type:String,
             reuqired:true
+        },
+        updatePinNote:{
+            type:Function,
+            required:true
         }
     },
     data(){
@@ -210,7 +210,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@time:.5s;
+@time:.3s;
 #note{
     margin-left: 20px;
     min-width: 600px;

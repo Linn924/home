@@ -2,20 +2,20 @@
     <!-- 操作导航模块 -->
     <div id="handel" v-show="isHandel">
         <div class="handelItem" @click="closeNavOpenList">
-            <svg class="icon icon-fold" aria-hidden="true">
-                <use xlink:href="#icon-fold"></use>
+            <svg class="icon icon-zhedie" aria-hidden="true">
+                <use xlink:href="#icon-zhedie"></use>
             </svg>
             <span>折叠</span>
         </div>
         <div class="handelItem" @click="openPutNavDialog">
-            <svg class="icon icon-edit" aria-hidden="true">
-                <use xlink:href="#icon-edit"></use>
+            <svg class="icon icon-bianji" aria-hidden="true">
+                <use xlink:href="#icon-bianji"></use>
             </svg>
             <span>编辑</span>
         </div>
         <div class="handelItem" @click="openDeleteNavDialog">
-            <svg class="icon icon-delete2" aria-hidden="true">
-                <use xlink:href="#icon-delete2"></use>
+            <svg class="icon icon-shanchu" aria-hidden="true">
+                <use xlink:href="#icon-shanchu"></use>
             </svg>
             <span>删除</span>
         </div>
@@ -47,6 +47,7 @@ export default {
 </script>
 
 <style scoped lang="less">
+@time:.3s;
 #handel{
     position: absolute;
     top: 0;
@@ -59,7 +60,7 @@ export default {
     flex-direction: column;
     font-size: 12px;
     color: #626262;
-    transition: all .15s;
+    transition: all @time;
     .handelItem{
         width: 100%;
         height: 40px;
@@ -73,7 +74,7 @@ export default {
         &:hover{background-color:rgba(192,192,192, .5);color: #2468F2;}
         span{margin-left: 10px;}
     }
-    .icon-edit,.icon-delete2,.icon-fold{
+    .icon-bianji,.icon-shanchu,.icon-zhedie{
         fill: currentColor;
         color: #6C6C6C;
     }
