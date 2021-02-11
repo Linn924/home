@@ -6,7 +6,7 @@
                 v-for="(item,index) in browserIcons" 
                 :key="index" @click="clickIcon(index)"
                 :class="browserIndex == index ? 'current':''">
-                <svg class="icon" aria-hidden="true">
+                <svg class="icon smallIcon" aria-hidden="true">
                     <use :xlink:href="item.className"></use>
                 </svg>
             </span>

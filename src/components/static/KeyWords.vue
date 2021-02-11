@@ -1,16 +1,15 @@
 <template>
     <!-- 关键词模块 -->
     <div id="keyWords" v-if="searchList.length">
-        <transition-group name="keyWords">
+        <transition-group name="keyWord">
             <div id="keyword"
-                v-for="(item,index) in searchList" 
+                v-for="item in searchList" 
                 @click="clickKeyWords(item.url)"
-                :key="index">
+                :key="item.id">
                 {{item.title}}
             </div>
         </transition-group>
     </div>
-    
 </template>
 
 <script>

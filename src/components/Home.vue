@@ -141,14 +141,14 @@ export default {
             preLoadImgList:[//预加载图片数据
                 'https://s3.ax1x.com/2021/02/02/ynl0PJ.jpg',
                 'https://s3.ax1x.com/2021/02/04/y1r534.jpg',
-                'http://127.0.0.1:8888/static/images/1.jpg',
-                'http://127.0.0.1:8888/static/images/white.jpg'
+                'http://139.196.210.43:0927/static/images/1.jpg',
+                'http://139.196.210.43:0927/static/images/white.jpg'
             ],
 
             //Init组件相关变量
             flag:false,//遮罩和背景图片 放大or缩小
             time:'',//当前时间
-            defaultImg:'http://127.0.0.1:8888/static/images/1.jpg',//默认壁纸
+            defaultImg:'http://139.196.210.43:0927/static/images/white.jpg',//默认壁纸
             flagTime:false,//时间 点击or未点击
 
             //Search组件相关变量
@@ -564,8 +564,8 @@ export default {
             if(res.code != 200) 
             return this.$message({message:`${res.tips}`,type:'error',duration:1200})
             this.wallpaperList = res.data
-            this.defaultImg = res.defaultImg ? res.defaultImg : 'http://127.0.0.1:8888/static/images/1.jpg'
-            this.customImg = res.customImg ? res.customImg : 'http://127.0.0.1:8888/static/images/white.jpg'
+            this.defaultImg = res.defaultImg ? res.defaultImg : 'http://139.196.210.43:0927/static/images/1.jpg'
+            this.customImg = res.customImg ? res.customImg : 'http://139.196.210.43:0927/static/images/white.jpg'
             this.backups = res.customImg
             let flag = false
             flag = this.wallpaperList.some(item => {
@@ -605,7 +605,7 @@ export default {
         },
         //点击切换自定义壁纸
         clickCustomImg(e){  
-            if(this.token && this.customImg != 'http://127.0.0.1:8888/static/images/white.jpg'){
+            if(this.token && this.customImg != 'http://139.196.210.43:0927/static/images/white.jpg'){
                 this.imgIndex = 0
                 this.defaultImg = e.target.src
                 this.updateWallpaper(e.target.src)
@@ -625,6 +625,7 @@ export default {
 </script>
 
 <style lang="less">
+@import '../assets/css/home.css';
 .dialog-forms{
     width: inherit;
     margin: 30px 0 20px 0;
