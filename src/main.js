@@ -7,7 +7,7 @@ import './assets/css/global.css'
 axios.defaults.baseURL='http://139.196.210.43:0927/'
 
 axios.interceptors.request.use(config => {
-  config.headers.Authorization = window.sessionStorage.getItem('token')
+  config.headers.Authorization = sessionStorage.getItem('token')
   return config
 })
 

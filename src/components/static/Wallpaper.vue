@@ -15,7 +15,7 @@
                         <span>自定义</span>
                         <div class="customBox">
                             <div :class="imgIndex == 0?'img image':'img'">
-                                <img :src="customImg" @click="clickCustomImg($event)">
+                                <img :src="customImg" class="fadeIn" @click="clickCustomImg($event)">
                             </div>
                             <div class="describe">
                                 <span>将您喜爱的任意图像设为壁纸。</span>
@@ -34,7 +34,8 @@
                             <div :class="item.id == imgIndex ? 'img image' : 'img' "
                                 v-for="item in wallpaperList" :key="item.id">
                                 <img src="https://s1.ax1x.com/2020/10/13/0hyDFH.jpg" 
-                                    :data-url="item.url" @click="clickDefaultImg(item)">
+                                    :data-url="item.url" @click="clickDefaultImg(item)"
+                                    class="fadeIn">
                             </div>
                         </div>
                     </div>
@@ -232,6 +233,14 @@ export default {
     align-items: center;
     color: #fff;
     background-color: rgba(0, 0, 0, .4);
+}
+
+.fadeIn{
+    animation: fadeIn @time ease forwards;
+}
+@keyframes fadeIn {
+    0%{opacity: 0}
+    100%{opacity: 1}
 }
 
 #wallpaper-enter-active,

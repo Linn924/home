@@ -40,6 +40,7 @@
             </div>
             <!-- 右侧修饰部分 -->
             <div class="main-right">
+                 <img class="fadeIn" src="../../assets/image/minions.jpg" alt="">
             </div>
         </main> 
         <footer>
@@ -110,7 +111,6 @@ export default {
         width: 1200px;
         border-radius: 5px;
         margin: 0 auto;
-        background:url(https://s3.ax1x.com/2021/02/02/ynl0PJ.jpg) no-repeat right center;
     }
     footer{
         flex: 1;
@@ -145,6 +145,13 @@ main{
             }
         }
         
+    }
+    .main-right{
+        flex: 1;
+        img{
+            width: 100%;
+            height: inherit;
+        }
     }
 }
 footer{
@@ -195,5 +202,13 @@ footer{
             color: #AAAAAA;
         }
     }
+}
+
+.fadeIn{
+    animation: fadeIn .3s ease forwards;
+}
+@keyframes fadeIn {
+    0%{opacity: 0}
+    100%{opacity: 1}
 }
 </style>

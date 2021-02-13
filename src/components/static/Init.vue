@@ -77,7 +77,7 @@ export default {
     }
     footer{
         position: absolute;
-        bottom: 1vh;
+        bottom: 5px;
         left: 50%;
         transform: translateX(-50%);
         font-size: 12px;
@@ -86,11 +86,8 @@ export default {
         align-items: center;
         a{
             cursor: pointer;
-            color:#9D9D9F;
-            transition:color @time;
-            &:hover{color: #fff;}
+            color:#fff;
         }
     }
 }
-
 </style>

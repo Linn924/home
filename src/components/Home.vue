@@ -139,8 +139,6 @@ export default {
             backups:'',//备份用户上传的背景图片地址
             isDefaultNav:false,//不准操作默认的导航 修改or添加
             preLoadImgList:[//预加载图片数据
-                'https://s3.ax1x.com/2021/02/02/ynl0PJ.jpg',
-                'https://s3.ax1x.com/2021/02/04/y1r534.jpg',
                 'http://139.196.210.43:0927/static/images/1.jpg',
                 'http://139.196.210.43:0927/static/images/white.jpg'
             ],
@@ -489,6 +487,9 @@ export default {
         openPostNavDialog(){
             if(!this.token || !this.uname)
             return this.$message({message: '无法添加自定义网站，请登录',type: 'error',duration:1200})
+            this.isUserModule = false
+            this.isSetModule = false
+            this.isStack = false
             this.isPostDialog = true
         },
         //打开修改自定义导航对话框
@@ -522,6 +523,12 @@ export default {
             return this.$message({message: `${res.tips}`,type: 'error',duration:1200})
             this.$message({message: `${res.tips}`,type: 'success',duration:1200})
             this.isPostDialog = false
+            this.postNavForm = {
+                uid:0,
+                uname:'',
+                title:'',
+                url:''
+            }
             this.$refs.function.getNav()
         },
         //修改自定义导航
@@ -550,6 +557,9 @@ export default {
         },
         //打开壁纸盒子
         openWallpaper(){
+            this.isUserModule = false
+            this.isSetModule = false
+            this.isStack = false
             this.isWallpaper = true
             const imgs = document.querySelectorAll('#wallpaper .default img')
             for(let item of imgs){item.src = item.dataset.url}

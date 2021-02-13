@@ -146,7 +146,7 @@ export default {
 <style lang="less" scoped>
 .register{
     height: 100vh;
-    background: url(https://s3.ax1x.com/2021/02/04/y1r534.jpg) no-repeat center center;
+    background: url('../../assets/image/work.jpg') no-repeat center center;
     .mask{
         height: 100%;
         background-image: radial-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 100%),radial-gradient(rgba(0,0,0,0) 33%,rgba(0,0,0,0.3) 166%);
