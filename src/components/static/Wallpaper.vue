@@ -131,8 +131,8 @@ export default {
         height: 350px;
         overflow: hidden;
         overflow-y: auto;
-        &::-webkit-scrollbar {width: 6px;}
-        &::-webkit-scrollbar-thumb {background-color: rgb(177, 175, 175);border-radius: 4px;}
+        &::-webkit-scrollbar {width: 5px;border-radius: 2px;}
+        &::-webkit-scrollbar-thumb {background-color: rgb(177, 175, 175);border-radius: 2px;}
         &::-webkit-scrollbar-track{background-color: #F1F5F8;}
     }
 }
