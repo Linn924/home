@@ -1,7 +1,7 @@
 <template>
     <!-- 功能模块 -->
     <transition name="function">
-        <div id="function" v-show="isFunction">
+        <div id="function" v-if="isFunction">
             <NavList 
                 :isNavFoldList="isNavFoldList"
                 :navFoldIndex="navFoldIndex"

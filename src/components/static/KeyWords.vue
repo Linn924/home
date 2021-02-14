@@ -1,15 +1,15 @@
 <template>
     <!-- 关键词模块 -->
-    <div id="keyWords" v-if="searchList.length">
-        <transition-group name="keyWord">
-            <div id="keyword"
+    <transition name="keyWords">
+        <div id="keyWords" v-if="searchList.length">
+            <span
                 v-for="item in searchList" 
                 @click="clickKeyWords(item.url)"
                 :key="item.id">
                 {{item.title}}
-            </div>
-        </transition-group>
-    </div>
+            </span>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -44,7 +44,7 @@ export default {
     border-radius: 15px;
     box-sizing: border-box;
     font-size: 14px;
-    div{
+    span{
         padding: 10px 20px;
         color: rgba(255, 255, 255, .8);
         transition: all @time;
@@ -58,11 +58,11 @@ export default {
     }
 }
 
-#keyWord-enter-active,
-#keyWord-leave-active
+#keyWords-enter-active,
+#keyWords-leave-active
 {transition: all @time;}
 
-#keyWord-enter,
-#keyWord-leave-to
+#keyWords-enter,
+#keyWords-leave-to
 {opacity: 0;}
 </style>

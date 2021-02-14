@@ -28,7 +28,8 @@
             </transition>
             <transition name="setModule">
                 <div class="setModule" v-show="isSetModule">
-                    <span>暂无</span>
+                    <span @click="$message({message:'暂未开发',type:'success',duration:1200})">常用设置</span>
+                    <span @click="$message({message:'暂未开发',type:'success',duration:1200})">切换主题</span>
                 </div>
             </transition>
         </div>
@@ -148,7 +149,7 @@ export default {
         position: absolute;
         top: 30px;
         right: 0;
-        width: 160px;
+        width: 120px;
         background-color: rgba(255, 255, 255);
         display: flex;
         flex-direction: column;
@@ -164,6 +165,8 @@ export default {
             &:first-child{border-radius: 8px 8px 0 0;}
             &:last-child{border-radius: 0 0 8px 8px;}
             &:hover{background-color:rgba(192,192,192, .5);color: #2468F2;}
+            &:first-child:hover{border-radius: 8px 8px 0 0!important;}
+            &:last-child:hover{border-radius: 0 0 8px 8px!important;}
         }
     }
 }   

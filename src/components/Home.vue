@@ -113,7 +113,7 @@ import Wallpaper from './static/Wallpaper'
 import Dialog from './static/Dialog'
 
 export default {
-    name:'App',
+    name:'Home',
     inject:['reload'],
     components:{
         Init,
@@ -626,8 +626,8 @@ export default {
         async updateWallpaper(url){
             const {data:res} = await this.axios.put('wallpapers',{url:url,uname:this.uname,uid:this.uid})
             if(res.code != 200) 
-            return this.$message({message:`${res.tips}`,type:'error',duration:1200})
-            this.$message({message:`${res.tips}`,type:'success',duration:1200})
+            return this.$message({message:'切换壁纸失败',type:'error',duration:1200})
+            this.$message({message:'切换壁纸成功',type:'success',duration:1200})
             this.getWallpaper()
         }
     }

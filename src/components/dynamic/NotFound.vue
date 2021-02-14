@@ -1,24 +1,27 @@
 <template>
-    <div id="notFound">
+    <div id="notfound">
         <header>
             <span>LinnCooper</span>
-            
-            <div class="menu" @mouseenter="visible = true" @mouseleave="visible = false">
+            <div class="menu" 
+                @mouseenter="visible = true" 
+                @mouseleave="visible = false">
                 <span>MENU</span>
                 <i class="fa fa-bars"></i>
                 <div class="comboBox" v-show="visible">
                     <i class="fa fa-angle-up"></i>
-                    <router-link v-for="(item,index) in routerList" :key="index" :to="item.router">
+                    <router-link 
+                        v-for="(item,index) in routerList" 
+                        :key="index" 
+                        :to="item.router">
                         <i :class="item.className"></i>
                         <span>{{item.name}}</span>
                     </router-link>
                 </div>
             </div>
         </header>
-
-        <section>
+        <main>
             <span>You are lost.</span>
-        </section>
+        </main>
     </div>
 </template>
 
@@ -53,7 +56,7 @@ export default {
         box-sizing: border-box;
         span{text-shadow: -2px -2px 10px rgba(255, 255, 255);}
     }
-    section{
+    main{
         position: absolute;
         top: 50%;
         left: 50%;

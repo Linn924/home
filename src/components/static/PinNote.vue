@@ -1,6 +1,6 @@
 <template>
     <!-- 钉住的便签模块 -->
-    <div id="pinNote">
+    <div id="pinNote" v-if="noteList.length">
         <transition-group name="pinNoteItem">
             <div 
                 class="pinNoteItem" 

@@ -1,5 +1,5 @@
 <template>
-    <div id="App">
+    <div id="app">
         <router-view v-if="isRouterAlive" />
     </div>
 </template>
